@@ -678,6 +678,47 @@ body.hovering .cursor-outline {
         border-radius: var(--radius-lg) var(--radius-lg) 0 0;
         transform-origin: bottom;
     }
+
+    /* Horizontal Scrolling for Projects and Services on Mobile */
+    .projects-grid,
+    .services-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 1.5rem;
+        padding-bottom: 2rem;
+        padding-left: 5%;
+        padding-right: 5%;
+        margin-left: -5%;
+        margin-right: -5%;
+        scrollbar-width: thin;
+        scrollbar-color: var(--accent-color) transparent;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .projects-grid::-webkit-scrollbar,
+    .services-grid::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    .projects-grid::-webkit-scrollbar-track,
+    .services-grid::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+    }
+
+    .projects-grid::-webkit-scrollbar-thumb,
+    .services-grid::-webkit-scrollbar-thumb {
+        background: var(--gradient-primary);
+        border-radius: 10px;
+    }
+
+    .project-card,
+    .service-card {
+        flex: 0 0 85%;
+        scroll-snap-align: center;
+        max-width: none;
+    }
 }
 
 @media (max-width: 480px) {
