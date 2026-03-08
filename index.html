@@ -17,13 +17,19 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap"
         rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet"></noscript>
+    <noscript>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap"
+            rel="stylesheet">
+    </noscript>
 
     <!-- FontAwesome: load non-blocking -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </noscript>
 
     <!-- Main Stylesheet (critical, loaded normally) -->
     <link rel="stylesheet" href="style.css">
@@ -127,78 +133,92 @@
         <!-- 3. Projects Section -->
         <section id="projects" class="section projects-section">
             <h2 class="section-title reveal-elem">Featured <span class="accent-text">Work</span></h2>
-            <div class="projects-grid">
-                <!-- Project 1 -->
-                <div class="project-card glass-panel tilt-card reveal-elem" data-tilt>
-                    <div class="project-img-wrapper">
-                        <div class="project-img-placeholder"
-                            style="background: linear-gradient(45deg, #6366f1, #3b82f6);">
-                            <i class="fa-solid fa-wallet fa-3x"></i>
+            <div class="slider-wrapper">
+                <button class="slider-nav prev" id="projPrev" aria-label="Previous project"><i
+                        class="fa-solid fa-chevron-left"></i></button>
+                <div class="projects-grid" id="projectsGrid">
+                    <!-- Project 1 -->
+                    <div class="project-card glass-panel tilt-card reveal-elem" data-tilt>
+                        <div class="project-img-wrapper">
+                            <div class="project-img-placeholder"
+                                style="background: linear-gradient(45deg, #6366f1, #3b82f6);">
+                                <i class="fa-solid fa-wallet fa-3x"></i>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Personal Expense Tracker</h3>
+                            <p>A full-stack application to track and visualize daily expenses with interactive charts.
+                            </p>
+                            <div class="project-tech">
+                                <span>React</span>
+                                <span>Node.js</span>
+                                <span>MongoDB</span>
+                            </div>
+                            <div class="project-links mt-1">
+                                <button class="btn btn-sm btn-primary case-study-btn">Case Study</button>
+                                <a href="#" target="_blank" rel="noopener noreferrer"
+                                    class="btn btn-sm btn-outline magnetic-btn"><i class="fa-brands fa-github"></i></a>
+                            </div>
                         </div>
                     </div>
-                    <div class="project-info">
-                        <h3>Personal Expense Tracker</h3>
-                        <p>A full-stack application to track and visualize daily expenses with interactive charts.</p>
-                        <div class="project-tech">
-                            <span>React</span>
-                            <span>Node.js</span>
-                            <span>MongoDB</span>
+
+                    <!-- Project 2 -->
+                    <div class="project-card glass-panel tilt-card reveal-elem" data-tilt>
+                        <div class="project-img-wrapper">
+                            <div class="project-img-placeholder"
+                                style="background: linear-gradient(45deg, #ec4899, #f43f5e);">
+                                <i class="fa-solid fa-utensils fa-3x"></i>
+                            </div>
                         </div>
-                        <div class="project-links mt-1">
-                            <button class="btn btn-sm btn-primary case-study-btn">Case Study</button>
-                            <a href="#" target="_blank" rel="noopener noreferrer"
-                                class="btn btn-sm btn-outline magnetic-btn"><i class="fa-brands fa-github"></i></a>
+                        <div class="project-info">
+                            <h3>Restaurant Website</h3>
+                            <p>A premium restaurant website featuring animated menus, table reservations, and 3D food
+                                showcases.</p>
+                            <div class="project-tech">
+                                <span>HTML/CSS</span>
+                                <span>Vanilla JS</span>
+                                <span>GSAP</span>
+                            </div>
+                            <div class="project-links mt-1">
+                                <button class="btn btn-sm btn-primary case-study-btn">Case Study</button>
+                                <a href="#" target="_blank" rel="noopener noreferrer"
+                                    class="btn btn-sm btn-outline magnetic-btn"><i class="fa-brands fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="project-card glass-panel tilt-card reveal-elem" data-tilt>
+                        <div class="project-img-wrapper">
+                            <div class="project-img-placeholder"
+                                style="background: linear-gradient(45deg, #10b981, #059669);">
+                                <i class="fa-solid fa-rocket fa-3x"></i>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Startup Landing Page</h3>
+                            <p>A high-conversion landing page with scroll-triggered animations and dark mode support.
+                            </p>
+                            <div class="project-tech">
+                                <span>Next.js</span>
+                                <span>Tailwind</span>
+                                <span>Framer Motion</span>
+                            </div>
+                            <div class="project-links mt-1">
+                                <button class="btn btn-sm btn-primary case-study-btn">Case Study</button>
+                                <a href="#" target="_blank" rel="noopener noreferrer"
+                                    class="btn btn-sm btn-outline magnetic-btn"><i class="fa-brands fa-github"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Project 2 -->
-                <div class="project-card glass-panel tilt-card reveal-elem" data-tilt>
-                    <div class="project-img-wrapper">
-                        <div class="project-img-placeholder"
-                            style="background: linear-gradient(45deg, #ec4899, #f43f5e);">
-                            <i class="fa-solid fa-utensils fa-3x"></i>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <h3>Restaurant Website</h3>
-                        <p>A premium restaurant website featuring animated menus, table reservations, and 3D food
-                            showcases.</p>
-                        <div class="project-tech">
-                            <span>HTML/CSS</span>
-                            <span>Vanilla JS</span>
-                            <span>GSAP</span>
-                        </div>
-                        <div class="project-links mt-1">
-                            <button class="btn btn-sm btn-primary case-study-btn">Case Study</button>
-                            <a href="#" target="_blank" rel="noopener noreferrer"
-                                class="btn btn-sm btn-outline magnetic-btn"><i class="fa-brands fa-github"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 3 -->
-                <div class="project-card glass-panel tilt-card reveal-elem" data-tilt>
-                    <div class="project-img-wrapper">
-                        <div class="project-img-placeholder"
-                            style="background: linear-gradient(45deg, #10b981, #059669);">
-                            <i class="fa-solid fa-rocket fa-3x"></i>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <h3>Startup Landing Page</h3>
-                        <p>A high-conversion landing page with scroll-triggered animations and dark mode support.</p>
-                        <div class="project-tech">
-                            <span>Next.js</span>
-                            <span>Tailwind</span>
-                            <span>Framer Motion</span>
-                        </div>
-                        <div class="project-links mt-1">
-                            <button class="btn btn-sm btn-primary case-study-btn">Case Study</button>
-                            <a href="#" target="_blank" rel="noopener noreferrer"
-                                class="btn btn-sm btn-outline magnetic-btn"><i class="fa-brands fa-github"></i></a>
-                        </div>
-                    </div>
+                <button class="slider-nav next" id="projNext" aria-label="Next project"><i
+                        class="fa-solid fa-chevron-right"></i></button>
+                <!-- Dot indicators -->
+                <div class="slider-dots" id="projDots">
+                    <button class="slider-dot active" data-index="0" aria-label="Project 1"></button>
+                    <button class="slider-dot" data-index="1" aria-label="Project 2"></button>
+                    <button class="slider-dot" data-index="2" aria-label="Project 3"></button>
                 </div>
             </div>
         </section>
@@ -206,26 +226,39 @@
         <!-- 4. Services Section -->
         <section id="services" class="section services-section">
             <h2 class="section-title reveal-elem">My <span class="accent-text">Services</span></h2>
-            <div class="services-grid">
-                <div class="service-card glass-panel reveal-elem tilt-card" data-tilt>
-                    <i class="fa-solid fa-code service-icon"></i>
-                    <h3>Web Development</h3>
-                    <p>Building responsive, fast, and accessible web applications using modern technologies.</p>
+            <div class="slider-wrapper">
+                <button class="slider-nav prev" id="svcPrev" aria-label="Previous service"><i
+                        class="fa-solid fa-chevron-left"></i></button>
+                <div class="services-grid" id="servicesGrid">
+                    <div class="service-card glass-panel reveal-elem tilt-card" data-tilt>
+                        <i class="fa-solid fa-code service-icon"></i>
+                        <h3>Web Development</h3>
+                        <p>Building responsive, fast, and accessible web applications using modern technologies.</p>
+                    </div>
+                    <div class="service-card glass-panel reveal-elem tilt-card" data-tilt>
+                        <i class="fa-solid fa-pen-nib service-icon"></i>
+                        <h3>Landing Page Design</h3>
+                        <p>Creating high-conversion, visually stunning landing pages that captivate users.</p>
+                    </div>
+                    <div class="service-card glass-panel reveal-elem tilt-card" data-tilt>
+                        <i class="fa-solid fa-robot service-icon"></i>
+                        <h3>AI Integration</h3>
+                        <p>Adding smart AI features like chatbots, content generators, and predictive analytics.</p>
+                    </div>
+                    <div class="service-card glass-panel reveal-elem tilt-card" data-tilt>
+                        <i class="fa-solid fa-gauge-high service-icon"></i>
+                        <h3>Website Optimization</h3>
+                        <p>Improving performance, SEO, and accessibility of existing websites.</p>
+                    </div>
                 </div>
-                <div class="service-card glass-panel reveal-elem tilt-card" data-tilt>
-                    <i class="fa-solid fa-pen-nib service-icon"></i>
-                    <h3>Landing Page Design</h3>
-                    <p>Creating high-conversion, visually stunning landing pages that captivate users.</p>
-                </div>
-                <div class="service-card glass-panel reveal-elem tilt-card" data-tilt>
-                    <i class="fa-solid fa-robot service-icon"></i>
-                    <h3>AI Integration</h3>
-                    <p>Adding smart AI features like chatbots, content generators, and predictive analytics.</p>
-                </div>
-                <div class="service-card glass-panel reveal-elem tilt-card" data-tilt>
-                    <i class="fa-solid fa-gauge-high service-icon"></i>
-                    <h3>Website Optimization</h3>
-                    <p>Improving performance, SEO, and accessibility of existing websites.</p>
+                <button class="slider-nav next" id="svcNext" aria-label="Next service"><i
+                        class="fa-solid fa-chevron-right"></i></button>
+                <!-- Dot indicators -->
+                <div class="slider-dots" id="svcDots">
+                    <button class="slider-dot active" data-index="0" aria-label="Service 1"></button>
+                    <button class="slider-dot" data-index="1" aria-label="Service 2"></button>
+                    <button class="slider-dot" data-index="2" aria-label="Service 3"></button>
+                    <button class="slider-dot" data-index="3" aria-label="Service 4"></button>
                 </div>
             </div>
         </section>

@@ -117,7 +117,7 @@ ul {
     left: 0;
     transform: translate(-50%, -50%);
     border-radius: 50%;
-    z-index: 9999;
+    z-index: 10001;
     pointer-events: none;
 }
 
@@ -642,6 +642,12 @@ body.hovering .cursor-outline {
         --section-padding: var(--section-padding-mobile);
     }
 
+    /* Remove full-viewport min-height from sections on mobile to eliminate blank scroll gaps */
+    .section {
+        min-height: auto !important;
+        padding: 3.5rem 1.25rem;
+    }
+
     .nav {
         position: fixed;
         top: 0;
@@ -685,9 +691,11 @@ body.hovering .cursor-outline {
 
     /* Hero section adjustments */
     .hero {
-        padding-top: 6rem;
+        padding-top: 5rem;
+        padding-bottom: 2.5rem;
         align-items: flex-start;
-        padding-bottom: 3rem;
+        min-height: 100svh;
+        /* keep hero full-height */
     }
 
     .hero-content {
@@ -714,13 +722,27 @@ body.hovering .cursor-outline {
         display: none;
     }
 
-    /* About section */
+    /* About section - fix 3D sphere overlapping text */
     .about-visual {
-        min-height: 220px;
+        min-height: 300px;
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+        /* clip sphere items that extend outside */
+        margin-top: 1rem;
+    }
+
+    .about-content {
+        overflow: visible;
     }
 
     .about-text p {
         margin-bottom: 1rem;
+    }
+
+    /* Section title spacing */
+    .section-title {
+        margin-bottom: 2rem;
     }
 
     /* Chatbot */
@@ -739,21 +761,49 @@ body.hovering .cursor-outline {
         right: 20px;
     }
 
-    /* Project + Service grids */
+    /* ---- Mobile Horizontal Slider for Projects & Services ---- */
+    .slider-wrapper {
+        overflow: hidden;
+        /* clip cards outside view */
+        position: relative;
+        width: 100%;
+    }
+
     .projects-grid,
     .services-grid {
         display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 1rem;
+        padding: 0.5rem 0;
+        margin: 0;
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        /* No overflow scroll — we move with translateX */
+        overflow: visible;
     }
 
-    .project-card,
+    .project-card {
+        flex: 0 0 92%;
+        min-width: 0;
+        margin: 0;
+    }
+
     .service-card {
-        width: 100%;
-        margin: 0 auto;
+        flex: 0 0 88%;
+        min-width: 0;
+        margin: 0;
     }
 
-    /* Tilt effect off on touch: no transform preserve-3d needed */
+    /* Show slider dots and nav on mobile */
+    .slider-dots {
+        display: flex;
+    }
+
+    .slider-nav {
+        display: flex;
+    }
+
+    /* Tilt effect off on touch */
     .project-card,
     .service-card,
     .pricing-card {
@@ -823,13 +873,82 @@ body.hovering .cursor-outline {
 ========================================= */
 .section {
     padding: var(--section-padding);
-    min-height: 100svh;
-    /* Use svh for better mobile compatibility */
     display: flex;
     flex-direction: column;
     justify-content: center;
     contain: layout;
     /* CSS containment for paint performance */
+}
+
+/* Apply min-height only on larger screens where there's room for it */
+@media (min-width: 769px) {
+    .section {
+        min-height: 100svh;
+    }
+}
+
+/* =========================================
+   Mobile Slider Styles (Projects & Services)
+========================================= */
+.slider-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.slider-dots {
+    display: none;
+    /* shown only on mobile */
+    justify-content: center;
+    gap: 8px;
+    margin-top: 1.5rem;
+}
+
+.slider-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--glass-border);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.slider-dot.active {
+    background: var(--accent-color);
+    transform: scale(1.3);
+}
+
+.slider-nav {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    font-size: 0.9rem;
+    z-index: 10;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.slider-nav:active {
+    transform: translateY(-50%) scale(0.92);
+}
+
+.slider-nav.prev {
+    left: -8px;
+}
+
+.slider-nav.next {
+    right: -8px;
 }
 
 .section-title {
@@ -1261,6 +1380,14 @@ body.hovering .cursor-outline {
     .about-visual {
         order: 2;
         min-height: 300px;
+        overflow: hidden;
+        /* prevent sphere from overlapping text above */
+    }
+
+    /* Ensure about section doesn't clip layout but sphere stays contained */
+    .about-section {
+        contain: none;
+        overflow: visible;
     }
 
     .pricing-grid {

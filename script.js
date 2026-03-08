@@ -248,7 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Configuration
         const options = {
-            radius: window.innerWidth > 768 ? 200 : 130,
+            radius: window.innerWidth > 768 ? 200 : 110,
             maxSpeed: 'fast',
             initialSpeed: 'normal',
             direction: 135,
@@ -357,5 +357,75 @@ document.addEventListener("DOMContentLoaded", () => {
             lenis.start();
         }
     });
+
+    // --- 12. Mobile Horizontal Slider for Projects & Services ---
+    function initSlider(gridId, prevBtnId, nextBtnId, dotsId) {
+        const grid = document.getElementById(gridId);
+        const prevBtn = document.getElementById(prevBtnId);
+        const nextBtn = document.getElementById(nextBtnId);
+        const dotsContainer = document.getElementById(dotsId);
+        if (!grid || !prevBtn || !nextBtn || !dotsContainer) return;
+
+        const dots = dotsContainer.querySelectorAll('.slider-dot');
+        const cards = Array.from(grid.children);
+        let currentIndex = 0;
+
+        function slideTo(index) {
+            if (index < 0) index = 0;
+            if (index >= cards.length) index = cards.length - 1;
+            currentIndex = index;
+
+            // Calculate offset: each card is flex: 0 0 85% (or 80%) + gap
+            // We shift the grid by the card's offsetLeft
+            const card = cards[currentIndex];
+            const offset = card.offsetLeft;
+            grid.style.transform = `translateX(-${offset}px)`;
+
+            // Sync dots
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentIndex);
+            });
+        }
+
+        prevBtn.addEventListener('click', () => slideTo(currentIndex - 1));
+        nextBtn.addEventListener('click', () => slideTo(currentIndex + 1));
+
+        // Dot click navigation
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => slideTo(i));
+        });
+
+        // Touch swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const SWIPE_THRESHOLD = 50;
+
+        grid.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        grid.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > SWIPE_THRESHOLD) {
+                if (diff > 0) {
+                    // Swiped left → next
+                    slideTo(currentIndex + 1);
+                } else {
+                    // Swiped right → prev
+                    slideTo(currentIndex - 1);
+                }
+            }
+        }, { passive: true });
+
+        // Initial position
+        slideTo(0);
+    }
+
+    // Only run slider logic on mobile (≤768px)
+    if (window.matchMedia('(max-width: 768px)').matches) {
+        initSlider('projectsGrid', 'projPrev', 'projNext', 'projDots');
+        initSlider('servicesGrid', 'svcPrev', 'svcNext', 'svcDots');
+    }
 
 });
