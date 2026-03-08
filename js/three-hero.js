@@ -78,13 +78,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     const mainObject = new THREE.Mesh(geometry, material);
 
-    // Position it slightly to the right on desktop, center on mobile
+    // Position it slightly to the right on desktop, moved down on mobile
     if (!isMobile) {
         mainObject.position.x = 2;
         mainObject.position.y = 0;
+        mainObject.scale.set(1, 1, 1);
     } else {
         mainObject.position.x = 0;
-        mainObject.position.y = 1.5;
+        mainObject.position.y = -1.5;
+        mainObject.scale.set(0.8, 0.8, 0.8);
     }
     scene.add(mainObject);
 
@@ -170,9 +172,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!mobile) {
             mainObject.position.x = 2;
             mainObject.position.y = 0;
+            mainObject.scale.set(1, 1, 1);
         } else {
             mainObject.position.x = 0;
-            mainObject.position.y = 1.5;
+            mainObject.position.y = -1.5;
+            mainObject.scale.set(0.8, 0.8, 0.8);
         }
     });
 });
