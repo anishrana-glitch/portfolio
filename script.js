@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    // Detect touch/no-hover devices once
+    const isTouchDevice = window.matchMedia('(hover: none)').matches;
+
     // --- 1. Lenis Smooth Scrolling ---
     const lenis = new Lenis({
         duration: 1.2,
@@ -63,57 +66,52 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // --- 2. Custom Cursor ---
+    // --- 2. Custom Cursor (desktop only) ---
     const cursorDot = document.querySelector('.cursor-dot');
     const cursorOutline = document.querySelector('.cursor-outline');
 
-    window.addEventListener('mousemove', (e) => {
-        const posX = e.clientX;
-        const posY = e.clientY;
+    if (!isTouchDevice) {
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
 
-        // Custom Cursor is handled by CSS to be hidden on touch
-        cursorDot.style.left = `${posX}px`;
-        cursorDot.style.top = `${posY}px`;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
 
-        cursorOutline.animate({
-            left: `${posX}px`,
-            top: `${posY}px`
-        }, { duration: 500, fill: "forwards" });
-    });
-
-    // Add hover state to interactive elements
-    const interactiveElements = document.querySelectorAll('a, button, input, .magnetic-btn');
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            document.body.classList.add('hovering');
-        });
-        el.addEventListener('mouseleave', () => {
-            document.body.classList.remove('hovering');
-        });
-    });
-
-    // --- 3. Magnetic Buttons ---
-    const magneticBtns = document.querySelectorAll('.magnetic-btn');
-    magneticBtns.forEach(btn => {
-        btn.addEventListener('mousemove', (e) => {
-            const rect = btn.getBoundingClientRect();
-            const h = rect.width / 2;
-
-            const x = e.clientX - rect.left - h;
-            const y = e.clientY - rect.top - h;
-
-            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
         });
 
-        btn.addEventListener('mouseleave', () => {
-            btn.style.transform = `translate(0px, 0px)`;
-            btn.style.transition = `transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)`;
+        // Add hover state to interactive elements
+        const interactiveElements = document.querySelectorAll('a, button, input, .magnetic-btn');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => { document.body.classList.add('hovering'); });
+            el.addEventListener('mouseleave', () => { document.body.classList.remove('hovering'); });
         });
+    }
 
-        btn.addEventListener('mouseenter', () => {
-            btn.style.transition = `none`;
+    // --- 3. Magnetic Buttons (desktop only) ---
+    if (!isTouchDevice) {
+        const magneticBtns = document.querySelectorAll('.magnetic-btn');
+        magneticBtns.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const h = rect.width / 2;
+                const x = e.clientX - rect.left - h;
+                const y = e.clientY - rect.top - h;
+                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = `translate(0px, 0px)`;
+                btn.style.transition = `transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)`;
+            });
+            btn.addEventListener('mouseenter', () => {
+                btn.style.transition = `none`;
+            });
         });
-    });
+    }
 
     // --- 4. Dark/Light Theme Toggle ---
     const themeToggle = document.getElementById('themeToggle');
@@ -144,19 +142,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const header = document.querySelector('.header');
     const progressBar = document.querySelector('.scroll-progress');
 
+    // Debounced scroll handler for performance
+    let scrollRafPending = false;
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-
-        // Calculate scroll progress
-        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (winScroll / height) * 100;
-        progressBar.style.width = scrolled + "%";
-    });
+        if (scrollRafPending) return;
+        scrollRafPending = true;
+        requestAnimationFrame(() => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+            scrollRafPending = false;
+        });
+    }, { passive: true });
 
     // --- 6. AI Chatbot Toggle ---
     const chatToggle = document.getElementById('chatToggle');
@@ -278,14 +281,16 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }, 100);
 
-    // --- 10. Vanilla Tilt for Cards ---
-    VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
-        max: 15,
-        speed: 400,
-        glare: true,
-        "max-glare": 0.2,
-        scale: 1.02
-    });
+    // --- 10. Vanilla Tilt for Cards (desktop only) ---
+    if (!isTouchDevice && typeof VanillaTilt !== 'undefined') {
+        VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
+            max: 15,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2,
+            scale: 1.02
+        });
+    }
 
     // --- 11. Case Study Modals ---
     const caseStudyBtns = document.querySelectorAll('.case-study-btn');

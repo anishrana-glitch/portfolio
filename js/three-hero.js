@@ -6,6 +6,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const container = document.getElementById('canvas-container');
     if (!container) return;
 
+    // Skip Three.js on very low-end devices to save CPU/GPU
+    const isMobile = window.innerWidth <= 768;
+    const isLowEnd = navigator.hardwareConcurrency !== undefined && navigator.hardwareConcurrency <= 2;
+    if (isLowEnd && isMobile) {
+        // Show a simple CSS gradient background instead
+        container.style.background = 'radial-gradient(ellipse at 70% 50%, rgba(99,102,241,0.15) 0%, transparent 70%)';
+        return;
+    }
+
     // --- 1. Scene Setup ---
     const scene = new THREE.Scene();
 
@@ -33,17 +42,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.updateThreeTheme = (theme) => {
         if (theme === 'light') {
-            pointLight.intensity = 1.2;
-            pointLight2.intensity = 1.2;
-            material.opacity = 0.4; // increase wireframe visibility
-            material.emissiveIntensity = 0.5;
-            particlesMaterial.color.set(0x3b82f6); // darker blue for light mode
-            particlesMaterial.opacity = 0.6;
-            particlesMaterial.blending = THREE.NormalBlending; // better visibility on light bg
+            pointLight.intensity = 1.5;
+            pointLight2.intensity = 1.5;
+            material.opacity = 0.8;
+            material.color.setHex(0x4338ca);
+            material.emissive.setHex(0x000000);
+            material.emissiveIntensity = 0;
+            particlesMaterial.color.set(0x4338ca);
+            particlesMaterial.opacity = 0.9;
+            particlesMaterial.blending = THREE.NormalBlending;
         } else {
             pointLight.intensity = 2;
             pointLight2.intensity = 2;
             material.opacity = 0.15;
+            material.color.setHex(0xffffff);
+            material.emissive.setHex(0x6366f1);
             material.emissiveIntensity = 0.2;
             particlesMaterial.color.set(0x6366f1);
             particlesMaterial.opacity = 0.8;
@@ -52,8 +65,9 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // --- 3. Futuristic Geometry ---
-    // Using an Icosahedron for a poly/tech look
-    const geometry = new THREE.IcosahedronGeometry(1.5, 1);
+    // Use lower detail on mobile to save GPU
+    const geoDetail = isMobile ? 0 : 1;
+    const geometry = new THREE.IcosahedronGeometry(1.5, geoDetail);
     const material = new THREE.MeshStandardMaterial({
         color: 0xffffff,
         wireframe: true,
@@ -65,8 +79,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const mainObject = new THREE.Mesh(geometry, material);
 
     // Position it slightly to the right on desktop, center on mobile
-    if (window.innerWidth > 768) {
+    if (!isMobile) {
         mainObject.position.x = 2;
+        mainObject.position.y = 0;
+    } else {
+        mainObject.position.x = 0;
+        mainObject.position.y = 1.5;
     }
     scene.add(mainObject);
 
@@ -82,11 +100,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- 4. Floating Particles ---
     const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 700;
+    // Use fewer particles on mobile to save GPU bandwidth
+    const particlesCount = isMobile ? 250 : 700;
     const posArray = new Float32Array(particlesCount * 3);
 
     for (let i = 0; i < particlesCount * 3; i++) {
-        posArray[i] = (Math.random() - 0.5) * 15; // Spread particles over a 15x15x15 volume
+        posArray[i] = (Math.random() - 0.5) * 15;
     }
 
     particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
@@ -147,11 +166,13 @@ document.addEventListener("DOMContentLoaded", () => {
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
 
-        if (window.innerWidth > 768) {
+        const mobile = window.innerWidth <= 768;
+        if (!mobile) {
             mainObject.position.x = 2;
+            mainObject.position.y = 0;
         } else {
             mainObject.position.x = 0;
-            mainObject.position.y = 1;
+            mainObject.position.y = 1.5;
         }
     });
 });

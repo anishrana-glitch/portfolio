@@ -3,7 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#050505" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
     <title>Anish Rana | Full Stack Developer & AI Enthusiast</title>
     <meta name="description" content="Portfolio of Anish Rana, building modern digital experiences with code and AI.">
 
@@ -11,16 +13,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- Modern Fonts: Space Grotesk for headings, Outfit for body text -->
+    <!-- Non-blocking font load with display=swap -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet"></noscript>
 
-    <!-- FontAwesome for standard icons -->
+    <!-- FontAwesome: load non-blocking -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
-    <!-- Main Stylesheet -->
+    <!-- Main Stylesheet (critical, loaded normally) -->
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -39,7 +44,7 @@
 
     <!-- Navigation -->
     <header class="header">
-        <a href="#" class="logo magnetic-btn">AR<span class="dot"></span></a>
+        <a href="#" class="logo magnetic-btn">AR<span class="dot">.</span></a>
         <nav class="nav">
             <ul class="nav-links">
                 <li><a href="#about" class="nav-link">About</a></li>
@@ -359,13 +364,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
 
-    <!-- Three.js for 3D Hero -->
+    <!-- Three.js for 3D Hero (skipped on very low-end, handled in JS) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
 
     <!-- TagCloud for 3D Tech Sphere -->
     <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js" defer></script>
 
-    <!-- Vanilla Tilt for 3D Hover Cards -->
+    <!-- Vanilla Tilt for 3D Hover Cards (skipped on touch, handled in JS) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js" defer></script>
 
     <!-- Custom Scripts -->

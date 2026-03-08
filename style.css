@@ -35,19 +35,15 @@
 
 [data-theme="light"] {
     /* Colors - Light Theme */
-    --bg-color: #f1f5f9;
-    /* Slightly more tinted for depth */
+    --bg-color: #f8fafc;
     --text-color: #0f172a;
-    --text-muted: #334155;
-    /* Darker than before (#475569) */
+    --text-muted: #475569;
 
     /* Glassmorphism for Light Mode */
-    --glass-bg: rgba(255, 255, 255, 0.85);
-    /* Increased opacity */
-    --glass-border: rgba(99, 102, 241, 0.15);
-    --nav-bg: rgba(241, 245, 249, 0.95);
-    --panel-shadow: 0 10px 40px rgba(99, 102, 241, 0.08);
-    /* Slightly stronger shadow */
+    --glass-bg: rgba(255, 255, 255, 0.92);
+    --glass-border: rgba(99, 102, 241, 0.2);
+    --nav-bg: rgba(248, 250, 252, 0.95);
+    --panel-shadow: 0 10px 40px rgba(99, 102, 241, 0.12);
 }
 
 /* =========================================
@@ -72,6 +68,16 @@ body {
     transition: background-color 0.4s ease, color 0.4s ease;
     cursor: none;
     /* For custom cursor */
+}
+
+/* Restore native cursor on touch screens */
+@media (hover: none) {
+
+    body,
+    a,
+    button {
+        cursor: auto;
+    }
 }
 
 h1,
@@ -137,6 +143,15 @@ body.hovering .cursor-outline {
     backdrop-filter: blur(2px);
 }
 
+/* Hide custom cursor entirely on touch devices */
+@media (hover: none) {
+
+    .cursor-dot,
+    .cursor-outline {
+        display: none;
+    }
+}
+
 /* =========================================
    Utility Classes & Components
 ========================================= */
@@ -179,6 +194,8 @@ body.hovering .cursor-outline {
     position: relative;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 44px;
+    /* Touch target minimum */
 }
 
 .btn-primary {
@@ -211,6 +228,15 @@ body.hovering .cursor-outline {
 /* Magnetic Area padding */
 .magnetic-btn {
     display: inline-block;
+}
+
+/* Touch-friendly nav links & social icons */
+.nav-link,
+.social-icon {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Theme Toggle */
@@ -333,9 +359,12 @@ body.hovering .cursor-outline {
 .hero {
     position: relative;
     min-height: 100vh;
+    min-height: 100svh;
+    /* Fix address-bar overflow on mobile browsers */
     display: flex;
     align-items: center;
-    padding: var(--section-padding);
+    padding: 10rem 5% 8rem;
+    /* top clears fixed header (~80px) + generous breathing room */
     overflow: hidden;
 }
 
@@ -618,7 +647,7 @@ body.hovering .cursor-outline {
         top: 0;
         right: -100%;
         width: 100%;
-        height: 100vh;
+        height: 100dvh;
         background: var(--nav-bg);
         backdrop-filter: blur(20px);
         display: flex;
@@ -650,90 +679,142 @@ body.hovering .cursor-outline {
     .theme-toggle {
         left: 20px;
         bottom: 20px;
-        width: 40px;
-        height: 40px;
+        width: 44px;
+        height: 44px;
+    }
+
+    /* Hero section adjustments */
+    .hero {
+        padding-top: 6rem;
+        align-items: flex-start;
+        padding-bottom: 3rem;
+    }
+
+    .hero-content {
+        max-width: 100%;
     }
 
     .hero-title {
-        font-size: clamp(3rem, 12vw, 4.5rem);
+        font-size: clamp(2.5rem, 10vw, 3.5rem);
+        letter-spacing: -1px;
     }
 
     .hero-subtitle {
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
+        font-size: 1.3rem;
+        margin-bottom: 1.2rem;
     }
 
     .hero-tagline {
-        font-size: 1.1rem;
-        margin-bottom: 2rem;
+        font-size: 1rem;
+        margin-bottom: 1.8rem;
+        max-width: 100%;
     }
 
+    .scroll-indicator {
+        display: none;
+    }
+
+    /* About section */
+    .about-visual {
+        min-height: 220px;
+    }
+
+    .about-text p {
+        margin-bottom: 1rem;
+    }
+
+    /* Chatbot */
     .chat-window {
         position: fixed;
         bottom: 0;
         right: 0;
         width: 100vw;
-        height: 80vh;
-        /* Better for mobile, allows some context or escape */
+        height: 80dvh;
         border-radius: var(--radius-lg) var(--radius-lg) 0 0;
         transform-origin: bottom;
     }
 
-    /* Horizontal Scrolling for Projects and Services on Mobile */
+    .chatbot-widget {
+        bottom: 20px;
+        right: 20px;
+    }
+
+    /* Project + Service grids */
     .projects-grid,
     .services-grid {
         display: flex;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
+        flex-direction: column;
         gap: 1.5rem;
-        padding-bottom: 2rem;
-        padding-left: 5%;
-        padding-right: 5%;
-        margin-left: -5%;
-        margin-right: -5%;
-        scrollbar-width: thin;
-        scrollbar-color: var(--accent-color) transparent;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .projects-grid::-webkit-scrollbar,
-    .services-grid::-webkit-scrollbar {
-        height: 4px;
-    }
-
-    .projects-grid::-webkit-scrollbar-track,
-    .services-grid::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 10px;
-    }
-
-    .projects-grid::-webkit-scrollbar-thumb,
-    .services-grid::-webkit-scrollbar-thumb {
-        background: var(--gradient-primary);
-        border-radius: 10px;
     }
 
     .project-card,
     .service-card {
-        flex: 0 0 85%;
-        scroll-snap-align: center;
-        max-width: none;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    /* Tilt effect off on touch: no transform preserve-3d needed */
+    .project-card,
+    .service-card,
+    .pricing-card {
+        transform-style: flat;
+    }
+
+    /* Contact form */
+    .contact-content {
+        gap: 2rem;
+    }
+
+    .contact-form {
+        padding: 1.5rem;
+        width: 100%;
+    }
+
+    /* Disable expensive backdrop-filter on mobile glass panels */
+    .glass-panel {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
     }
 }
 
 @media (max-width: 480px) {
     .section-title {
-        font-size: 2.2rem;
-        margin-bottom: 2.5rem;
+        font-size: 2rem;
+        margin-bottom: 2rem;
     }
 
     .hero-title {
-        font-size: 2.8rem;
+        font-size: 2.4rem;
+        letter-spacing: -1px;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
     }
 
     .btn {
-        padding: 0.8rem 1.5rem;
-        font-size: 0.95rem;
+        padding: 0.75rem 1.25rem;
+        font-size: 0.9rem;
+    }
+
+    .pricing-card {
+        padding: 2rem 1.25rem;
+    }
+
+    .price {
+        font-size: 2.4rem;
+    }
+
+    .modal-content {
+        padding: 1.5rem;
+    }
+
+    .modal-body h2 {
+        font-size: 1.8rem;
+    }
+
+    .footer {
+        padding: 1.5rem 1rem;
     }
 }
 
@@ -742,10 +823,13 @@ body.hovering .cursor-outline {
 ========================================= */
 .section {
     padding: var(--section-padding);
-    min-height: 100vh;
+    min-height: 100svh;
+    /* Use svh for better mobile compatibility */
     display: flex;
     flex-direction: column;
     justify-content: center;
+    contain: layout;
+    /* CSS containment for paint performance */
 }
 
 .section-title {
@@ -872,10 +956,9 @@ body.hovering .cursor-outline {
 }
 
 [data-theme="light"] .tagcloud--item {
-    color: var(--accent-color);
-    text-shadow: 0 1px 2px rgba(99, 102, 241, 0.1), 0 0 1px rgba(0, 0, 0, 0.05);
-    font-weight: 700;
-    /* Extra bold for visibility */
+    color: #4338ca;
+    text-shadow: none;
+    font-weight: 800;
 }
 
 /* =========================================
